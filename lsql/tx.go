@@ -22,7 +22,7 @@ func (d *DBQuerierTx[T]) Rollback() error {
 	return d.DBQuerier.querier.Rollback()
 }
 
-func (d *DBQuerierTx[T]) StmtContext(ctx context.Context, stmt *DBQuerierStmt) *DBQuerierStmt {
+func (d *DBQuerierTx[T]) Stmt(ctx context.Context, stmt *DBQuerierStmt) *DBQuerierStmt {
 	return &DBQuerierStmt{
 		stmt:         d.DBQuerier.querier.StmtContext(ctx, stmt.stmt),
 		args:         stmt.args,
