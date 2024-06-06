@@ -11,7 +11,7 @@ import (
 	"gotest.tools/v3/assert"
 )
 
-func TestNewDBQuerierStmt(t *testing.T) {
+func TestNewStmt(t *testing.T) {
 	ctx := context.Background()
 
 	db, dbMock, err := sqlmock.New()
@@ -25,7 +25,7 @@ func TestNewDBQuerierStmt(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDBQuerierDB(db)
+	ddb := NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -53,7 +53,7 @@ func TestNewDBQuerierStmt(t *testing.T) {
 	assert.NilError(t, rows.Err())
 }
 
-func TestNewDBQuerierStmtTx(t *testing.T) {
+func TestNewStmtTx(t *testing.T) {
 	ctx := context.Background()
 
 	db, dbMock, err := sqlmock.New()
@@ -71,7 +71,7 @@ func TestNewDBQuerierStmtTx(t *testing.T) {
 			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
-	ddb := NewDBQuerierDB(db)
+	ddb := NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),

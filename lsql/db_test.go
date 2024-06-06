@@ -11,7 +11,7 @@ import (
 	"gotest.tools/v3/assert"
 )
 
-func TestNewDBQuerierDB(t *testing.T) {
+func TestNewDB(t *testing.T) {
 	ctx := context.Background()
 
 	db, dbMock, err := sqlmock.New()
@@ -24,7 +24,7 @@ func TestNewDBQuerierDB(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDBQuerierDB(db)
+	ddb := NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),

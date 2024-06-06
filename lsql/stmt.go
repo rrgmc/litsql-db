@@ -8,13 +8,13 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-type DBQuerierStmt struct {
+type Stmt struct {
 	stmt         *sql.Stmt
 	args         []any
 	queryHandler sq.Handler
 }
 
-func NewDBQuerierStmt(querier *sql.Stmt, args []any, options ...Option) *DBQuerierStmt {
+func NewStmt(querier *sql.Stmt, args []any, options ...Option) *Stmt {
 	var optns dbOptions
 	for _, opt := range options {
 		opt(&optns)
@@ -24,18 +24,18 @@ func NewDBQuerierStmt(querier *sql.Stmt, args []any, options ...Option) *DBQueri
 		optns.queryHandler = sq.NewHandler()
 	}
 
-	return &DBQuerierStmt{
+	return &Stmt{
 		stmt:         querier,
 		args:         args,
 		queryHandler: optns.queryHandler,
 	}
 }
 
-func (d *DBQuerierStmt) Handler() *sql.Stmt {
+func (d *Stmt) Handler() *sql.Stmt {
 	return d.stmt
 }
 
-func (d *DBQuerierStmt) Query(ctx context.Context, params any) (*sql.Rows, error) {
+func (d *Stmt) Query(ctx context.Context, params any) (*sql.Rows, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (d *DBQuerierStmt) Query(ctx context.Context, params any) (*sql.Rows, error
 	return d.stmt.QueryContext(ctx, args...)
 }
 
-func (d *DBQuerierStmt) QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error) {
+func (d *Stmt) QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (d *DBQuerierStmt) QueryRow(ctx context.Context, query litsql.Query, params
 	return row, nil
 }
 
-func (d *DBQuerierStmt) Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error) {
+func (d *Stmt) Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -63,6 +63,6 @@ func (d *DBQuerierStmt) Exec(ctx context.Context, query litsql.Query, params any
 	return d.stmt.ExecContext(ctx, args...)
 }
 
-func (d *DBQuerierStmt) buildArgs(params any) ([]any, error) {
+func (d *Stmt) buildArgs(params any) ([]any, error) {
 	return d.queryHandler.ParseArgs(d.args, params)
 }
