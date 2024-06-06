@@ -89,9 +89,6 @@ func (d *DBQuerier[T]) Exec(ctx context.Context, query litsql.Query, params any)
 }
 
 func (d *DBQuerier[T]) buildQuery(query litsql.Query, params any) (string, []any, error) {
-	if params == nil {
-		return d.queryHandler.Build(query)
-	}
 	return d.queryHandler.Build(query,
 		sq.WithParseArgs(params),
 	)
