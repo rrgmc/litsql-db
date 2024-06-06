@@ -25,7 +25,7 @@ tasks:
     internal: true
     prompt: "Creating and pushing tag {{.VERSION}}. Are you sure?"
     cmds:
-      - 'git tag {{.VERSION}}'
+      - 'git tag lsql/{{.VERSION}}'
       - 'git push --tags'
     requires:
       vars: [VERSION]
