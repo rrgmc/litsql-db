@@ -4,7 +4,7 @@ go 1.22.0
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.2
-	github.com/rrgmc/litsql v0.7.1
+	github.com/rrgmc/litsql v0.8.0
 	gotest.tools/v3 v3.5.1
 )
 
