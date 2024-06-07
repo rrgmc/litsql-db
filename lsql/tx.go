@@ -2,6 +2,7 @@ package lsql
 
 import (
 	"context"
+	"database/sql"
 )
 
 type Tx[T QuerierTx] struct {
@@ -22,8 +23,8 @@ func (d *Tx[T]) Rollback() error {
 	return d.DBQuerier.querier.Rollback()
 }
 
-func (d *Tx[T]) Stmt(ctx context.Context, stmt *Stmt) *Stmt {
-	return &Stmt{
+func (d *Tx[T]) Stmt(ctx context.Context, stmt *Stmt[*sql.Stmt]) *Stmt[*sql.Stmt] {
+	return &Stmt[*sql.Stmt]{
 		stmt:         d.DBQuerier.querier.StmtContext(ctx, stmt.stmt),
 		args:         stmt.args,
 		queryHandler: stmt.queryHandler,
