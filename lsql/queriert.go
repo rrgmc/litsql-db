@@ -12,6 +12,7 @@ type QuerierT[ST SQLQuerierStmt] interface {
 	QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error)
 	Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error)
 	Prepare(ctx context.Context, query litsql.Query) (*StmtT[ST], error)
+	Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST] // allows matching both DB and Tx
 }
 
 type QuerierDBT[ST SQLQuerierStmt, TT SQLQuerierTx] interface {
