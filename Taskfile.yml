@@ -1,6 +1,11 @@
 version: '3'
 
 tasks:
+  update-version:
+    cmds:
+      - 'cd lsql; go mod edit -require=github.com/rrgmc/litsql@{{.VERSION}}'
+    requires:
+      vars: [VERSION]
   current-version:
     cmds:
       - 'echo "Version: {{.GIT_TAG_CURRENT}}"'
