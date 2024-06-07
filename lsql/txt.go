@@ -5,11 +5,11 @@ import (
 	"database/sql"
 )
 
-type TxT[T QuerierTx] struct {
+type TxT[T SQLQuerierTx] struct {
 	*BaseQuerier[T]
 }
 
-func NewTxT[T QuerierTx](querier T, options ...Option) *TxT[T] {
+func NewTxT[T SQLQuerierTx](querier T, options ...Option) *TxT[T] {
 	return &TxT[T]{
 		BaseQuerier: NewBaseQuerier[T](querier, options...),
 	}

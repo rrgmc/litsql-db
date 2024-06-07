@@ -7,13 +7,13 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-type StmtT[T QuerierStmt] struct {
+type StmtT[T SQLQuerierStmt] struct {
 	stmt         T
 	args         []any
 	queryHandler sq.Handler
 }
 
-func NewStmtT[T QuerierStmt](querier T, args []any, options ...Option) *StmtT[T] {
+func NewStmtT[T SQLQuerierStmt](querier T, args []any, options ...Option) *StmtT[T] {
 	var optns dbOptions
 	for _, opt := range options {
 		opt(&optns)
@@ -30,7 +30,7 @@ func NewStmtT[T QuerierStmt](querier T, args []any, options ...Option) *StmtT[T]
 	}
 }
 
-func (d *StmtT[T]) Handler() QuerierStmt {
+func (d *StmtT[T]) Handler() SQLQuerierStmt {
 	return d.stmt
 }
 

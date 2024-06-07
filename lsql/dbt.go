@@ -5,11 +5,11 @@ import (
 	"database/sql"
 )
 
-type DBT[T QuerierDB] struct {
+type DBT[T SQLQuerierDB] struct {
 	*BaseQuerier[T]
 }
 
-func NewDBT[T QuerierDB](querier T, options ...Option) *DBT[T] {
+func NewDBT[T SQLQuerierDB](querier T, options ...Option) *DBT[T] {
 	return &DBT[T]{
 		BaseQuerier: NewBaseQuerier[T](querier, options...),
 	}
