@@ -4,6 +4,12 @@
 
 Golang stdlib sql DB wrappers for [litsql](https://github.com/rrgmc/litsql).
 
+## Installation
+
+```shell
+go get -u github.com/rrgmc/litsql-db/lsql
+```
+
 ## Author
 
 Rangel Reale (rangelreale@gmail.com)
