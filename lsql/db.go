@@ -1,29 +1,9 @@
 package lsql
 
-import (
-	"context"
-	"database/sql"
-)
+import "database/sql"
 
-type DB[T QuerierDB] struct {
-	*BaseQuerier[T]
-}
+type DB = DBT[*sql.DB]
 
-func NewDB[T QuerierDB](querier T, options ...Option) *DB[T] {
-	return &DB[T]{
-		BaseQuerier: NewBaseQuerier[T](querier, options...),
-	}
-}
-
-func (d *DB[T]) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx[*sql.Tx], error) {
-	tx, err := d.BaseQuerier.querier.BeginTx(ctx, opts)
-	if err != nil {
-		return nil, err
-	}
-	return &Tx[*sql.Tx]{
-		BaseQuerier: &BaseQuerier[*sql.Tx]{
-			queryHandler: d.queryHandler,
-			querier:      tx,
-		},
-	}, nil
+func NewDB(db *sql.DB, options ...Option) *DB {
+	return NewDBT[*sql.DB](db, options...)
 }

@@ -25,7 +25,7 @@ func TestNewStmt(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db)
+	ddb := NewDBT(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -71,7 +71,7 @@ func TestNewStmtTx(t *testing.T) {
 			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
-	ddb := NewDB(db)
+	ddb := NewDBT(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),

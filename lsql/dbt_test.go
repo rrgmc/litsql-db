@@ -24,7 +24,7 @@ func TestNewDB(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db)
+	ddb := NewDBT(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -62,7 +62,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db, WithQueryHandler(sq.NewHandler(
+	ddb := NewDBT(db, WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),
