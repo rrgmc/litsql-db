@@ -29,7 +29,7 @@ func TestNewDB(t *testing.T) {
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
 		sm.From("film"),
-		sm.WhereC("length > ?", sq.NamedArg("length")),
+		sm.WhereClause("length > ?", sq.NamedArg("length")),
 		sm.Limit(10),
 	)
 
@@ -71,7 +71,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
 		sm.From("film"),
-		sm.WhereC("length > ?", sq.NamedArg("length")),
+		sm.WhereClause("length > ?", sq.NamedArg("length")),
 		sm.Limit(10),
 	)
 
