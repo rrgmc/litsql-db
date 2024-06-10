@@ -3,7 +3,7 @@ version: '3'
 tasks:
   update-version:
     cmds:
-      - 'cd lsql; go mod edit -require=github.com/rrgmc/litsql@{{.VERSION}}'
+      - 'cd lsql; go mod edit -require=github.com/rrgmc/litsql@{{.VERSION}}; go mod tidy'
     requires:
       vars: [VERSION]
   current-version:
