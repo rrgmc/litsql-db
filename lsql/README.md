@@ -78,7 +78,7 @@ func ExampleStmt() {
         sm.Limit(10),
     )
 
-    // generate SQL string from litsql and prepare it, storing named parameter to be replaced later
+    // generate SQL string from litsql and prepare it, storing the named parameters to be replaced later
     dstmt, err := ddb.Prepare(ctx, query)
     if err != nil {
         panic(err)
