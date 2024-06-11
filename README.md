@@ -2,8 +2,8 @@
 
 DB wrappers for [litsql](https://github.com/rrgmc/litsql).
 
- * [stdlib sql](lsql/)
- * [pgx](lpgx/)
+ * [stdlib sql](https://pkg.go.dev/github.com/rrgmc/litsql-db/lsql)
+ * [pgx](https://pkg.go.dev/github.com/rrgmc/litsql-db/lpgx)
 
 ## Example
 
