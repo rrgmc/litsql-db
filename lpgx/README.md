@@ -23,7 +23,7 @@ func ExampleDB() {
         panic(err)
     }
 
-    // wrap *sql.DB instance
+    // wrap *pgx.Conn instance
     ddb := lpgx.NewDB(conn)
 
     query := psql.Select(
@@ -68,7 +68,7 @@ func ExampleStmt() {
         panic(err)
     }
 
-    // wrap *sql.DB instance
+    // wrap *pgx.Conn instance
     ddb := lpgx.NewDB(conn)
 
     query := psql.Select(
