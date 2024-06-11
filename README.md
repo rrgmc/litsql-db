@@ -3,6 +3,7 @@
 DB wrappers for [litsql](https://github.com/rrgmc/litsql).
 
  * [stdlib sql](lsql/)
+ * [pgx](lpgx/)
 
 ## Author
 
