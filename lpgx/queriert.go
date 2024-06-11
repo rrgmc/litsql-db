@@ -2,7 +2,6 @@ package lpgx
 
 import (
 	"context"
-	"database/sql"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -19,7 +18,7 @@ type QuerierT[ST SQLQuerier] interface {
 
 type QuerierDBT[ST SQLQuerier, TT SQLQuerierTx] interface {
 	QuerierT[ST]
-	BeginTx(ctx context.Context, opts *sql.TxOptions) (*TxT[TT], error)
+	BeginTx(ctx context.Context, opts pgx.TxOptions) (*TxT[TT], error)
 }
 
 type QuerierStmtT interface {

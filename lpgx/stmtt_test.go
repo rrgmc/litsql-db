@@ -24,11 +24,11 @@ func TestNewStmt(t *testing.T) {
 	sname := "test1"
 
 	dbMock.ExpectPrepare(sname, `SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`)
-	// ExpectQuery().
-	// WithArgs(90, 10).
-	// WillReturnRows(sqlmock.
-	// 	NewRows([]string{"film_id", "title", "length"}).
-	// 	AddRow(1, "Test Film", 90))
+	dbMock.ExpectQuery(sname).
+		WithArgs(90, 10).
+		WillReturnRows(dbMock.
+			NewRows([]string{"film_id", "title", "length"}).
+			AddRow(1, "Test Film", 90))
 
 	ddb := NewDBT(dbMock)
 
@@ -73,11 +73,11 @@ func TestNewStmtTx(t *testing.T) {
 
 	dbMock.ExpectBegin()
 	dbMock.ExpectPrepare(sname, `SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`)
-	// ExpectQuery().
-	// WithArgs(90, 10).
-	// WillReturnRows(sqlmock.
-	// 	NewRows([]string{"film_id", "title", "length"}).
-	// 	AddRow(1, "Test Film", 90))
+	dbMock.ExpectQuery(sname).
+		WithArgs(90, 10).
+		WillReturnRows(pgxmock.
+			NewRows([]string{"film_id", "title", "length"}).
+			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
 	ddb := NewDBT(dbMock)

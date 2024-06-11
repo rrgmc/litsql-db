@@ -7,8 +7,8 @@ import (
 // type Querier = QuerierT[*sql.Stmt]
 // type Querier = QuerierT[*sql.Stmt]
 
-type QuerierDB = QuerierDBT[*pgx.Conn]
+type QuerierDB = QuerierDBT[*pgx.Conn, pgx.Tx]
 
 type QuerierStmt = QuerierStmtT
 
-type QuerierTx = QuerierTxT[*pgx.Conn]
+type QuerierTx = QuerierTxT[pgx.Tx]
