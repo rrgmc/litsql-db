@@ -27,3 +27,10 @@ jobs:
     - name: Test lsql
       working-directory: ./lsql
       run: go test -v ./...
+
+    - name: Build lpgx
+      working-directory: ./lpgx
+      run: go build -v ./...
+    - name: Test lpgx
+      working-directory: ./lpgx
+      run: go test -v ./...
