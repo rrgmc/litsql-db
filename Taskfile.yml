@@ -4,6 +4,7 @@ tasks:
   update-version:
     cmds:
       - 'cd lsql; go mod edit -require=github.com/rrgmc/litsql@{{.VERSION}}; go mod tidy'
+      - 'cd lpgx; go mod edit -require=github.com/rrgmc/litsql@{{.VERSION}}; go mod tidy'
     requires:
       vars: [VERSION]
   current-version:
@@ -31,6 +32,7 @@ tasks:
     prompt: "Creating and pushing tag {{.VERSION}}. Are you sure?"
     cmds:
       - 'git tag lsql/{{.VERSION}}'
+      - 'git tag lpgx/{{.VERSION}}'
       - 'git tag {{.VERSION}}'
       - 'git push --tags'
     requires:

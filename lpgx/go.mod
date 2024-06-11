@@ -5,7 +5,7 @@ go 1.22.0
 require (
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/pashagolub/pgxmock/v4 v4.1.0
-	github.com/rrgmc/litsql v0.11.0
+	github.com/rrgmc/litsql v0.11.1
 	gotest.tools/v3 v3.5.1
 )
 
