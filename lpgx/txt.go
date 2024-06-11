@@ -6,6 +6,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+var _ PGXQuerierTx = (pgx.Tx)(nil)
+
 type TxT[T PGXQuerierTx] struct {
 	*BaseQuerier[T]
 }
