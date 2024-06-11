@@ -12,8 +12,7 @@ type QuerierT[ST SQLQuerier] interface {
 	Query(ctx context.Context, query litsql.Query, params any) (pgx.Rows, error)
 	QueryRow(ctx context.Context, query litsql.Query, params any) (pgx.Row, error)
 	Exec(ctx context.Context, query litsql.Query, params any) (pgconn.CommandTag, error)
-	Prepare(ctx context.Context, name string, query litsql.Query) (*StmtT[ST], error)
-	// Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST] // allows matching both DB and Tx
+	Prepare(ctx context.Context, name string, query litsql.Query) (*Stmt[ST], error)
 }
 
 type QuerierDBT[ST SQLQuerier, TT SQLQuerierTx] interface {
@@ -32,5 +31,4 @@ type QuerierTxT[ST SQLQuerierTx] interface {
 	Begin(ctx context.Context) (*TxT[ST], error)
 	Commit(ctx context.Context) error
 	Rollback(ctx context.Context) error
-	// Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST]
 }

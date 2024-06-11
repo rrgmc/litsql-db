@@ -21,16 +21,9 @@ type SQLQuerierDB interface {
 	BeginTx(ctx context.Context, txOptions pgx.TxOptions) (pgx.Tx, error)
 }
 
-// type SQLQuerierStmt interface {
-// 	QueryContext(ctx context.Context, args ...any) (*sql.Rows, error)
-// 	QueryRowContext(ctx context.Context, args ...any) *sql.Row
-// 	ExecContext(ctx context.Context, args ...any) (sql.Result, error)
-// }
-
 type SQLQuerierTx interface {
 	SQLQuerier
 	Begin(ctx context.Context) (pgx.Tx, error)
 	Commit(ctx context.Context) error
 	Rollback(ctx context.Context) error
-	// StmtContext(ctx context.Context, stmt *sql.Stmt) *sql.Stmt
 }

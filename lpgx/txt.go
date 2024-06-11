@@ -36,11 +36,3 @@ func (d *TxT[T]) Commit(ctx context.Context) error {
 func (d *TxT[T]) Rollback(ctx context.Context) error {
 	return d.BaseQuerier.querier.Rollback(ctx)
 }
-
-// func (d *TxT[T]) Stmt(ctx context.Context, stmt *StmtT[*sql.Stmt]) *StmtT[*sql.Stmt] {
-// 	return &StmtT[*sql.Stmt]{
-// 		stmt:         d.BaseQuerier.querier.StmtContext(ctx, stmt.stmt),
-// 		args:         stmt.args,
-// 		queryHandler: stmt.queryHandler,
-// 	}
-// }

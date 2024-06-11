@@ -58,7 +58,7 @@ func (d *BaseQuerier[T]) Exec(ctx context.Context, query litsql.Query, params an
 	return d.querier.Exec(ctx, qstr, args...)
 }
 
-func (d *BaseQuerier[T]) Prepare(ctx context.Context, name string, query litsql.Query) (*StmtT[T], error) {
+func (d *BaseQuerier[T]) Prepare(ctx context.Context, name string, query litsql.Query) (*Stmt[T], error) {
 	qstr, args, err := d.queryHandler.Build(query)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (d *BaseQuerier[T]) Prepare(ctx context.Context, name string, query litsql.
 	if err != nil {
 		return nil, err
 	}
-	return &StmtT[T]{
+	return &Stmt[T]{
 		stmt:         d.querier,
 		desc:         desc,
 		args:         args,

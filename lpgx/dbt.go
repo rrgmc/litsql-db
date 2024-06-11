@@ -16,11 +16,6 @@ func NewDBT[T SQLQuerierDB](querier T, options ...Option) *DBT[T] {
 	}
 }
 
-// func (d *DBT[T]) Stmt(ctx context.Context, stmt *StmtT[T]) *StmtT[T] {
-// 	// return the same instance, as we are not a transaction.
-// 	return stmt
-// }
-
 func (d *DBT[T]) BeginTx(ctx context.Context, txOptions pgx.TxOptions) (*TxT[pgx.Tx], error) {
 	tx, err := d.BaseQuerier.querier.BeginTx(ctx, txOptions)
 	if err != nil {
