@@ -6,11 +6,11 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type TxT[T SQLQuerierTx] struct {
+type TxT[T PGXQuerierTx] struct {
 	*BaseQuerier[T]
 }
 
-func NewTxT[T SQLQuerierTx](querier T, options ...Option) *TxT[T] {
+func NewTxT[T PGXQuerierTx](querier T, options ...Option) *TxT[T] {
 	return &TxT[T]{
 		BaseQuerier: NewBaseQuerier[T](querier, options...),
 	}

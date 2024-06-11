@@ -6,11 +6,11 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type DBT[T SQLQuerierDB] struct {
+type DBT[T PGXQuerierDB] struct {
 	*BaseQuerier[T]
 }
 
-func NewDBT[T SQLQuerierDB](querier T, options ...Option) *DBT[T] {
+func NewDBT[T PGXQuerierDB](querier T, options ...Option) *DBT[T] {
 	return &DBT[T]{
 		BaseQuerier: NewBaseQuerier[T](querier, options...),
 	}

@@ -9,12 +9,12 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-type BaseQuerier[T SQLQuerier] struct {
+type BaseQuerier[T PGXQuerier] struct {
 	queryHandler sq.Handler
 	querier      T
 }
 
-func NewBaseQuerier[T SQLQuerier](querier T, options ...Option) *BaseQuerier[T] {
+func NewBaseQuerier[T PGXQuerier](querier T, options ...Option) *BaseQuerier[T] {
 	var optns dbOptions
 	for _, opt := range options {
 		opt(&optns)

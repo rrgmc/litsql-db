@@ -8,14 +8,14 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-type Stmt[T SQLQuerier] struct {
+type Stmt[T PGXQuerier] struct {
 	stmt         T
 	desc         *pgconn.StatementDescription
 	args         []any
 	queryHandler sq.Handler
 }
 
-func NewStmt[T SQLQuerier](querier T, desc *pgconn.StatementDescription, args []any, options ...Option) *Stmt[T] {
+func NewStmt[T PGXQuerier](querier T, desc *pgconn.StatementDescription, args []any, options ...Option) *Stmt[T] {
 	var optns dbOptions
 	for _, opt := range options {
 		opt(&optns)
@@ -33,7 +33,7 @@ func NewStmt[T SQLQuerier](querier T, desc *pgconn.StatementDescription, args []
 	}
 }
 
-func (d *Stmt[T]) Handler() SQLQuerier {
+func (d *Stmt[T]) Handler() PGXQuerier {
 	return d.stmt
 }
 
