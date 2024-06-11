@@ -1,10 +1,10 @@
-package lsql_test
+package lpgx_test
 
 import (
 	"context"
-	"database/sql"
 
-	"github.com/rrgmc/litsql-db/lsql"
+	"github.com/jackc/pgx/v5"
+	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -13,13 +13,13 @@ import (
 func ExampleStmt() {
 	ctx := context.Background()
 
-	db, err := sql.Open("test", ":memory:")
+	conn, err := pgx.Connect(ctx, "test")
 	if err != nil {
 		panic(err)
 	}
 
 	// wrap *sql.DB instance
-	ddb := lsql.NewDB(db)
+	ddb := lpgx.NewDB(conn)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -28,8 +28,10 @@ func ExampleStmt() {
 		sm.Limit(10),
 	)
 
+	queryName := "query1"
+
 	// generate SQL string from litsql and prepare it, storing the named parameters to be replaced later
-	dstmt, err := ddb.Prepare(ctx, query)
+	dstmt, err := ddb.Prepare(ctx, queryName, query)
 	if err != nil {
 		panic(err)
 	}
