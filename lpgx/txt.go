@@ -6,25 +6,24 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-var _ PGXQuerierTx = (pgx.Tx)(nil)
-
 type TxT[T PGXQuerierTx] struct {
-	*BaseQuerier[T]
+	*baseQuerier[T]
 }
 
+// NewTxT wraps any implementation of [PGXQuerierTx].
 func NewTxT[T PGXQuerierTx](querier T, options ...Option) *TxT[T] {
 	return &TxT[T]{
-		BaseQuerier: NewBaseQuerier[T](querier, options...),
+		baseQuerier: newBaseQuerier[T](querier, options...),
 	}
 }
 
 func (d *TxT[T]) Begin(ctx context.Context) (*TxT[pgx.Tx], error) {
-	tx, err := d.BaseQuerier.querier.Begin(ctx)
+	tx, err := d.baseQuerier.querier.Begin(ctx)
 	if err != nil {
 		return nil, err
 	}
 	return &TxT[pgx.Tx]{
-		BaseQuerier: &BaseQuerier[pgx.Tx]{
+		baseQuerier: &baseQuerier[pgx.Tx]{
 			queryHandler: d.queryHandler,
 			querier:      tx,
 		},
@@ -32,9 +31,9 @@ func (d *TxT[T]) Begin(ctx context.Context) (*TxT[pgx.Tx], error) {
 }
 
 func (d *TxT[T]) Commit(ctx context.Context) error {
-	return d.BaseQuerier.querier.Commit(ctx)
+	return d.baseQuerier.querier.Commit(ctx)
 }
 
 func (d *TxT[T]) Rollback(ctx context.Context) error {
-	return d.BaseQuerier.querier.Rollback(ctx)
+	return d.baseQuerier.querier.Rollback(ctx)
 }

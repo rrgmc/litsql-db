@@ -1,4 +1,4 @@
-package lpgx
+package lpgx_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/pashagolub/pgxmock/v4"
+	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -29,7 +30,7 @@ func TestNewTx(t *testing.T) {
 			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
-	ddb := NewDBT(dbMock)
+	ddb := lpgx.NewDBT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),

@@ -7,22 +7,23 @@ import (
 )
 
 type DBT[T PGXQuerierDB] struct {
-	*BaseQuerier[T]
+	*baseQuerier[T]
 }
 
+// NewDBT wraps any implementation of [PGXQuerierDB].
 func NewDBT[T PGXQuerierDB](querier T, options ...Option) *DBT[T] {
 	return &DBT[T]{
-		BaseQuerier: NewBaseQuerier[T](querier, options...),
+		baseQuerier: newBaseQuerier[T](querier, options...),
 	}
 }
 
 func (d *DBT[T]) BeginTx(ctx context.Context, txOptions pgx.TxOptions) (*TxT[pgx.Tx], error) {
-	tx, err := d.BaseQuerier.querier.BeginTx(ctx, txOptions)
+	tx, err := d.baseQuerier.querier.BeginTx(ctx, txOptions)
 	if err != nil {
 		return nil, err
 	}
 	return &TxT[pgx.Tx]{
-		BaseQuerier: &BaseQuerier[pgx.Tx]{
+		baseQuerier: &baseQuerier[pgx.Tx]{
 			queryHandler: d.queryHandler,
 			querier:      tx,
 		},

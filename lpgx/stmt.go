@@ -15,6 +15,7 @@ type Stmt[T PGXQuerier] struct {
 	queryHandler sq.Handler
 }
 
+// NewStmt wraps a PGXQuerier with a statement description from a Prepare call.
 func NewStmt[T PGXQuerier](querier T, desc *pgconn.StatementDescription, args []any, options ...Option) *Stmt[T] {
 	var optns dbOptions
 	for _, opt := range options {
@@ -33,7 +34,7 @@ func NewStmt[T PGXQuerier](querier T, desc *pgconn.StatementDescription, args []
 	}
 }
 
-func (d *Stmt[T]) Handler() PGXQuerier {
+func (d *Stmt[T]) Handler() T {
 	return d.stmt
 }
 

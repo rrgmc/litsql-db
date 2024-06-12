@@ -1,10 +1,11 @@
-package lpgx
+package lpgx_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/pashagolub/pgxmock/v4"
+	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -26,7 +27,7 @@ func TestNewDB(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDBT(dbMock)
+	ddb := lpgx.NewDBT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -66,7 +67,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDBT(dbMock, WithQueryHandler(sq.NewHandler(
+	ddb := lpgx.NewDBT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

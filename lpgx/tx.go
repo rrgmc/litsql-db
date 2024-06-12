@@ -8,6 +8,7 @@ type Tx = TxT[pgx.Tx]
 
 var _ QuerierTx = (*Tx)(nil)
 
+// NewTx wraps a [pgx.Tx].
 func NewTx(tx pgx.Tx, options ...Option) *Tx {
 	return NewTxT(tx, options...)
 }
