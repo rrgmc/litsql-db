@@ -6,17 +6,17 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type DBT[TT PGXQuerierTx, T PGXQuerierDB] struct {
+type DBT[T PGXQuerierDB] struct {
 	*BaseQuerier[T]
 }
 
-func NewDBT[TT PGXQuerierTx, T PGXQuerierDB](querier T, options ...Option) *DBT[TT, T] {
-	return &DBT[TT, T]{
+func NewDBT[T PGXQuerierDB](querier T, options ...Option) *DBT[T] {
+	return &DBT[T]{
 		BaseQuerier: NewBaseQuerier[T](querier, options...),
 	}
 }
 
-func (d *DBT[TT, T]) BeginTx(ctx context.Context, txOptions pgx.TxOptions) (*TxT[pgx.Tx], error) {
+func (d *DBT[T]) BeginTx(ctx context.Context, txOptions pgx.TxOptions) (*TxT[pgx.Tx], error) {
 	tx, err := d.BaseQuerier.querier.BeginTx(ctx, txOptions)
 	if err != nil {
 		return nil, err

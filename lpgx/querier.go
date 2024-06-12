@@ -4,7 +4,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type QuerierDB = QuerierDBT[*pgx.Conn, pgx.Tx]
+type QuerierDB = QuerierDBT[*pgx.Conn]
 
 type QuerierStmt = QuerierStmtT
 
