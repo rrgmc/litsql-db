@@ -28,7 +28,7 @@ func TestNewPool(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dpool := lpgxt.NewPoolT(dbMock)
+	dpool := lpgxt.NewPool(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -68,7 +68,7 @@ func TestNewPoolQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dpool := lpgxt.NewPoolT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dpool := lpgxt.NewPool(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

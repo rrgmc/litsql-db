@@ -28,7 +28,7 @@ func TestNewConn(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgxt.NewConnT(dbMock)
+	dconn := lpgxt.NewConn(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -68,7 +68,7 @@ func TestNewConnQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgxt.NewConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dconn := lpgxt.NewConn(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),
@@ -112,7 +112,7 @@ func TestNewPoolConn(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgxt.NewPoolConnT(dbMock)
+	dconn := lpgxt.NewPoolConn(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -152,7 +152,7 @@ func TestNewPoolConnQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgxt.NewPoolConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dconn := lpgxt.NewPoolConn(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

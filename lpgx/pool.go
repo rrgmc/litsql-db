@@ -6,11 +6,11 @@ import (
 )
 
 // Pool wraps a [pgxpool.Pool].
-type Pool = lpgxt.PoolT[*pgxpool.Pool]
+type Pool = lpgxt.Pool[*pgxpool.Pool]
 
 var _ QuerierPool = (*Pool)(nil)
 
 // NewPool wraps a [pgxpool.Pool].
 func NewPool(conn *pgxpool.Pool, options ...Option) *Pool {
-	return lpgxt.NewPoolT(conn, options...)
+	return lpgxt.NewPool(conn, options...)
 }

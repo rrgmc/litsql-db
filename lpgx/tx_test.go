@@ -30,7 +30,7 @@ func TestNewTx(t *testing.T) {
 			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
-	dconn := lpgxt.NewConnT(dbMock)
+	dconn := lpgxt.NewConn(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),

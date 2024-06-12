@@ -7,10 +7,10 @@ import (
 )
 
 // Conn wraps a [pgx.Conn].
-type Conn = lpgxt.ConnT[*pgx.Conn]
+type Conn = lpgxt.Conn[*pgx.Conn]
 
 // PoolConn wraps a [pgxpool.Conn].
-type PoolConn = lpgxt.PoolConnT[*pgxpool.Conn]
+type PoolConn = lpgxt.PoolConn[*pgxpool.Conn]
 
 var (
 	_ QuerierConn     = (*Conn)(nil)
@@ -19,10 +19,10 @@ var (
 
 // NewConn wraps a [pgx.Conn].
 func NewConn(conn *pgx.Conn, options ...Option) *Conn {
-	return lpgxt.NewConnT(conn, options...)
+	return lpgxt.NewConn(conn, options...)
 }
 
 // NewPoolConn wraps a [pgxpool.Conn].
 func NewPoolConn(conn *pgxpool.Conn, options ...Option) *PoolConn {
-	return lpgxt.NewPoolConnT(conn, options...)
+	return lpgxt.NewPoolConn(conn, options...)
 }

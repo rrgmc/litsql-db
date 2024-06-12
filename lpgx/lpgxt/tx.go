@@ -6,24 +6,24 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// TxT wraps any implementation of [PGXQuerierTx].
-type TxT[T PGXQuerierTx] struct {
+// Tx wraps any implementation of [PGXQuerierTx].
+type Tx[T PGXQuerierTx] struct {
 	*baseQuerierWithPrepare[T]
 }
 
-// NewTxT wraps any implementation of [PGXQuerierTx].
-func NewTxT[T PGXQuerierTx](querier T, options ...Option) *TxT[T] {
-	return &TxT[T]{
+// NewTx wraps any implementation of [PGXQuerierTx].
+func NewTx[T PGXQuerierTx](querier T, options ...Option) *Tx[T] {
+	return &Tx[T]{
 		baseQuerierWithPrepare: newBaseQuerierWithPrepare[T](querier, options...),
 	}
 }
 
-func (d *TxT[T]) Begin(ctx context.Context) (*TxT[pgx.Tx], error) {
+func (d *Tx[T]) Begin(ctx context.Context) (*Tx[pgx.Tx], error) {
 	tx, err := d.baseQuerier.querier.Begin(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &TxT[pgx.Tx]{
+	return &Tx[pgx.Tx]{
 		baseQuerierWithPrepare: &baseQuerierWithPrepare[pgx.Tx]{
 			baseQuerier: &baseQuerier[pgx.Tx]{
 				queryHandler: d.queryHandler,
@@ -33,10 +33,10 @@ func (d *TxT[T]) Begin(ctx context.Context) (*TxT[pgx.Tx], error) {
 	}, nil
 }
 
-func (d *TxT[T]) Commit(ctx context.Context) error {
+func (d *Tx[T]) Commit(ctx context.Context) error {
 	return d.baseQuerier.querier.Commit(ctx)
 }
 
-func (d *TxT[T]) Rollback(ctx context.Context) error {
+func (d *Tx[T]) Rollback(ctx context.Context) error {
 	return d.baseQuerier.querier.Rollback(ctx)
 }
