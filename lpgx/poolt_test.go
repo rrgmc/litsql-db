@@ -4,7 +4,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/pashagolub/pgxmock/v4"
 	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
@@ -13,7 +12,7 @@ import (
 	"gotest.tools/v3/assert"
 )
 
-func TestNewStmt(t *testing.T) {
+func TestNewPool(t *testing.T) {
 	ctx := context.Background()
 
 	dbMock, err := pgxmock.NewPool()
@@ -22,16 +21,13 @@ func TestNewStmt(t *testing.T) {
 	}
 	defer dbMock.Close()
 
-	sname := "test1"
-
-	dbMock.ExpectPrepare(sname, `SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`)
-	dbMock.ExpectQuery(sname).
+	dbMock.ExpectQuery(`SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`).
 		WithArgs(90, 10).
-		WillReturnRows(dbMock.
+		WillReturnRows(pgxmock.
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgx.NewConnT(dbMock)
+	dpool := lpgx.NewPoolT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -40,10 +36,7 @@ func TestNewStmt(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	dstmt, err := dconn.Prepare(ctx, sname, query)
-	assert.NilError(t, err)
-
-	rows, err := dstmt.Query(ctx, map[string]any{
+	rows, err := dpool.Query(ctx, query, map[string]any{
 		"length": 90,
 	})
 	assert.NilError(t, err)
@@ -59,7 +52,7 @@ func TestNewStmt(t *testing.T) {
 	assert.NilError(t, rows.Err())
 }
 
-func TestNewStmtTx(t *testing.T) {
+func TestNewPoolQueryHandler(t *testing.T) {
 	ctx := context.Background()
 
 	dbMock, err := pgxmock.NewPool()
@@ -68,20 +61,17 @@ func TestNewStmtTx(t *testing.T) {
 	}
 	defer dbMock.Close()
 
-	sname := "test1"
-
-	dbMock.MatchExpectationsInOrder(false)
-
-	dbMock.ExpectBegin()
-	dbMock.ExpectPrepare(sname, `SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`)
-	dbMock.ExpectQuery(sname).
+	dbMock.ExpectQuery(`SELECT (.+) FROM film WHERE length > (.+) LIMIT (.+)`).
 		WithArgs(90, 10).
 		WillReturnRows(pgxmock.
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
-	dbMock.ExpectCommit()
 
-	dconn := lpgx.NewConnT(dbMock)
+	dpool := lpgx.NewPoolT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+		sq.WithDefaultBuildOptions(
+			sq.WithWriterOptions(sq.WithUseNewLine(false)),
+		),
+	)))
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -90,13 +80,7 @@ func TestNewStmtTx(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	dstmt, err := dconn.Prepare(ctx, sname, query)
-	assert.NilError(t, err)
-
-	dtx, err := dconn.BeginTx(ctx, pgx.TxOptions{})
-	assert.NilError(t, err)
-
-	rows, err := dstmt.Query(ctx, map[string]any{
+	rows, err := dpool.Query(ctx, query, map[string]any{
 		"length": 90,
 	})
 	assert.NilError(t, err)
@@ -110,7 +94,4 @@ func TestNewStmtTx(t *testing.T) {
 	}
 
 	assert.NilError(t, rows.Err())
-
-	err = dtx.Commit(ctx)
-	assert.NilError(t, err)
 }

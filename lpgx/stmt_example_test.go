@@ -19,7 +19,7 @@ func ExampleStmt() {
 	}
 
 	// wrap *pgx.Conn instance
-	ddb := lpgx.NewConn(conn)
+	dconn := lpgx.NewConn(conn)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -31,7 +31,7 @@ func ExampleStmt() {
 	queryName := "query1"
 
 	// generate SQL string from litsql and prepare it, storing the named parameters to be replaced later
-	dstmt, err := ddb.Prepare(ctx, queryName, query)
+	dstmt, err := dconn.Prepare(ctx, queryName, query)
 	if err != nil {
 		panic(err)
 	}

@@ -10,7 +10,7 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-func ExampleDB() {
+func ExampleConn() {
 	ctx := context.Background()
 
 	conn, err := pgx.Connect(ctx, "test")
@@ -19,7 +19,7 @@ func ExampleDB() {
 	}
 
 	// wrap *pgx.Conn instance
-	ddb := lpgx.NewConn(conn)
+	dconn := lpgx.NewConn(conn)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -29,7 +29,7 @@ func ExampleDB() {
 	)
 
 	// generate SQL string from litsql and execute it, replacing named parameters.
-	rows, err := ddb.Query(ctx, query, map[string]any{
+	rows, err := dconn.Query(ctx, query, map[string]any{
 		"length": 90,
 	})
 	if err != nil {
