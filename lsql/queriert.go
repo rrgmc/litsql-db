@@ -26,8 +26,8 @@ type QuerierStmtT interface {
 	Exec(ctx context.Context, params any) (sql.Result, error)
 }
 
-type QuerierTxT[ST SQLQuerier] interface {
-	QuerierT[ST]
+type QuerierTxT[T SQLQuerier] interface {
+	QuerierT[T]
 	Commit() error
 	Rollback() error
 }
