@@ -12,8 +12,8 @@ type QuerierPoolConn = lpgxt.QuerierPoolConn[*pgxpool.Conn]
 
 type QuerierPool = lpgxt.QuerierPool[*pgxpool.Pool]
 
-type QuerierStmt = lpgxt.QuerierStmtT
+type QuerierStmt = lpgxt.QuerierStmt
 
-type QuerierTx = lpgxt.QuerierTxT[pgx.Tx]
+type QuerierTx = lpgxt.QuerierTx[pgx.Tx]
 
-type QuerierPoolTx = lpgxt.QuerierTxT[*pgxpool.Tx]
+type QuerierPoolTx = lpgxt.QuerierTx[*pgxpool.Tx]
