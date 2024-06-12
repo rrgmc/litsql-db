@@ -8,31 +8,31 @@ import (
 	"github.com/rrgmc/litsql"
 )
 
-type Querier[T PGXQuerier] interface {
+type Querier interface {
 	Query(ctx context.Context, query litsql.Query, params any) (pgx.Rows, error)
 	QueryRow(ctx context.Context, query litsql.Query, params any) (pgx.Row, error)
 	Exec(ctx context.Context, query litsql.Query, params any) (pgconn.CommandTag, error)
 }
 
 type QuerierWithPrepare[T PGXQuerier] interface {
-	Querier[T]
+	Querier
 	Prepare(ctx context.Context, name string, query litsql.Query) (*Stmt[T], error)
 }
 
-type QuerierPool[T PGXQuerier] interface {
-	Querier[T]
+type QuerierPool interface {
+	Querier
 	BeginTx(ctx context.Context, opts pgx.TxOptions) (*Tx[pgx.Tx], error)
 }
 
-type QuerierPoolConn[T PGXQuerier] interface {
-	Querier[T]
-	QuerierPool[T]
+type QuerierPoolConn interface {
+	Querier
+	QuerierPool
 	BeginTx(ctx context.Context, opts pgx.TxOptions) (*Tx[pgx.Tx], error)
 }
 
 type QuerierConn[T PGXQuerier] interface {
 	QuerierWithPrepare[T]
-	QuerierPoolConn[T]
+	QuerierPoolConn
 }
 
 type QuerierStmt interface {

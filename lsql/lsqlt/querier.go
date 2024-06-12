@@ -7,7 +7,7 @@ import (
 	"github.com/rrgmc/litsql"
 )
 
-type Querier[T SQLQuerier] interface {
+type Querier interface {
 	Query(ctx context.Context, query litsql.Query, params any) (*sql.Rows, error)
 	QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error)
 	Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error)
@@ -15,8 +15,8 @@ type Querier[T SQLQuerier] interface {
 	Stmt(ctx context.Context, stmt *Stmt[*sql.Stmt]) *Stmt[*sql.Stmt] // allows matching both DB and Tx
 }
 
-type QuerierDB[T SQLQuerier] interface {
-	Querier[T]
+type QuerierDB interface {
+	Querier
 	BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx[*sql.Tx], error)
 }
 
@@ -26,8 +26,8 @@ type QuerierStmt interface {
 	Exec(ctx context.Context, params any) (sql.Result, error)
 }
 
-type QuerierTx[T SQLQuerier] interface {
-	Querier[T]
+type QuerierTx interface {
+	Querier
 	Commit() error
 	Rollback() error
 }

@@ -6,11 +6,13 @@ import (
 	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 )
 
+type Querier = lpgxt.Querier
+
+type QuerierPool = lpgxt.QuerierPool
+
+type QuerierPoolConn = lpgxt.QuerierPoolConn
+
 type QuerierConn = lpgxt.QuerierConn[*pgx.Conn]
-
-type QuerierPoolConn = lpgxt.QuerierPoolConn[*pgxpool.Conn]
-
-type QuerierPool = lpgxt.QuerierPool[*pgxpool.Pool]
 
 type QuerierStmt = lpgxt.QuerierStmt
 
