@@ -15,7 +15,7 @@ go get -u github.com/rrgmc/litsql-db/lpgx
 #### Query
 
 ```go
-func ExampleDB() {
+func ExampleConn() {
     ctx := context.Background()
 
     conn, err := pgx.Connect(ctx, "test")
@@ -24,7 +24,7 @@ func ExampleDB() {
     }
 
     // wrap *pgx.Conn instance
-    ddb := lpgx.NewDB(conn)
+    dconn := lpgx.NewConn(conn)
 
     query := psql.Select(
         sm.Columns("film_id", "title", "length"),
@@ -34,7 +34,7 @@ func ExampleDB() {
     )
 
     // generate SQL string from litsql and execute it, replacing named parameters.
-    rows, err := ddb.Query(ctx, query, map[string]any{
+    rows, err := dconn.Query(ctx, query, map[string]any{
         "length": 90,
     })
     if err != nil {
@@ -69,7 +69,7 @@ func ExampleStmt() {
     }
 
     // wrap *pgx.Conn instance
-    ddb := lpgx.NewDB(conn)
+    dconn := lpgx.NewConn(conn)
 
     query := psql.Select(
         sm.Columns("film_id", "title", "length"),
@@ -81,7 +81,7 @@ func ExampleStmt() {
     queryName := "query1"
 
     // generate SQL string from litsql and prepare it, storing the named parameters to be replaced later
-    dstmt, err := ddb.Prepare(ctx, queryName, query)
+    dstmt, err := dconn.Prepare(ctx, queryName, query)
     if err != nil {
         panic(err)
     }
