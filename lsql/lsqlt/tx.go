@@ -5,28 +5,28 @@ import (
 	"database/sql"
 )
 
-// TxT wraps any implementation of [SQLQuerierTx].
-type TxT[T SQLQuerierTx] struct {
+// Tx wraps any implementation of [SQLQuerierTx].
+type Tx[T SQLQuerierTx] struct {
 	*baseQuerier[T]
 }
 
-// NewTxT wraps any implementation of [SQLQuerierTx].
-func NewTxT[T SQLQuerierTx](querier T, options ...Option) *TxT[T] {
-	return &TxT[T]{
+// NewTx wraps any implementation of [SQLQuerierTx].
+func NewTx[T SQLQuerierTx](querier T, options ...Option) *Tx[T] {
+	return &Tx[T]{
 		baseQuerier: newBaseQuerier[T](querier, options...),
 	}
 }
 
-func (d *TxT[T]) Commit() error {
+func (d *Tx[T]) Commit() error {
 	return d.baseQuerier.querier.Commit()
 }
 
-func (d *TxT[T]) Rollback() error {
+func (d *Tx[T]) Rollback() error {
 	return d.baseQuerier.querier.Rollback()
 }
 
-func (d *TxT[T]) Stmt(ctx context.Context, stmt *StmtT[*sql.Stmt]) *StmtT[*sql.Stmt] {
-	return &StmtT[*sql.Stmt]{
+func (d *Tx[T]) Stmt(ctx context.Context, stmt *Stmt[*sql.Stmt]) *Stmt[*sql.Stmt] {
+	return &Stmt[*sql.Stmt]{
 		stmt:         d.baseQuerier.querier.StmtContext(ctx, stmt.stmt),
 		args:         stmt.args,
 		queryHandler: stmt.queryHandler,

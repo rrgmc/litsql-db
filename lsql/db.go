@@ -7,11 +7,11 @@ import (
 )
 
 // DB wraps a [sql.DB].
-type DB = lsqlt.DBT[*sql.DB]
+type DB = lsqlt.DB[*sql.DB]
 
 var _ QuerierDB = (*DB)(nil)
 
 // NewDB wraps a [sql.DB].
 func NewDB(db *sql.DB, options ...Option) *DB {
-	return lsqlt.NewDBT(db, options...)
+	return lsqlt.NewDB(db, options...)
 }

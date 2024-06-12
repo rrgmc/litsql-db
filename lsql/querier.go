@@ -6,8 +6,8 @@ import (
 	"github.com/rrgmc/litsql-db/lsql/lsqlt"
 )
 
-type QuerierDB = lsqlt.QuerierDBT[*sql.DB]
+type QuerierDB = lsqlt.QuerierDB[*sql.DB]
 
-type QuerierStmt = lsqlt.QuerierStmtT
+type QuerierStmt = lsqlt.QuerierStmt
 
-type QuerierTx = lsqlt.QuerierTxT[*sql.Tx]
+type QuerierTx = lsqlt.QuerierTx[*sql.Tx]

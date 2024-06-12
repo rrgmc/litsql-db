@@ -7,15 +7,15 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
-// StmtT wraps any implementation of [SQLQuerierStmt].
-type StmtT[T SQLQuerierStmt] struct {
+// Stmt wraps any implementation of [SQLQuerierStmt].
+type Stmt[T SQLQuerierStmt] struct {
 	stmt         T
 	args         []any
 	queryHandler sq.Handler
 }
 
-// NewStmtT wraps any implementation of [SQLQuerierStmt].
-func NewStmtT[T SQLQuerierStmt](querier T, args []any, options ...Option) *StmtT[T] {
+// NewStmt wraps any implementation of [SQLQuerierStmt].
+func NewStmt[T SQLQuerierStmt](querier T, args []any, options ...Option) *Stmt[T] {
 	var optns dbOptions
 	for _, opt := range options {
 		opt(&optns)
@@ -25,18 +25,18 @@ func NewStmtT[T SQLQuerierStmt](querier T, args []any, options ...Option) *StmtT
 		optns.queryHandler = sq.NewHandler()
 	}
 
-	return &StmtT[T]{
+	return &Stmt[T]{
 		stmt:         querier,
 		args:         args,
 		queryHandler: optns.queryHandler,
 	}
 }
 
-func (d *StmtT[T]) Handler() T {
+func (d *Stmt[T]) Handler() T {
 	return d.stmt
 }
 
-func (d *StmtT[T]) Query(ctx context.Context, params any) (*sql.Rows, error) {
+func (d *Stmt[T]) Query(ctx context.Context, params any) (*sql.Rows, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (d *StmtT[T]) Query(ctx context.Context, params any) (*sql.Rows, error) {
 	return d.stmt.QueryContext(ctx, args...)
 }
 
-func (d *StmtT[T]) QueryRow(ctx context.Context, params any) (*sql.Row, error) {
+func (d *Stmt[T]) QueryRow(ctx context.Context, params any) (*sql.Row, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func (d *StmtT[T]) QueryRow(ctx context.Context, params any) (*sql.Row, error) {
 	return row, nil
 }
 
-func (d *StmtT[T]) Exec(ctx context.Context, params any) (sql.Result, error) {
+func (d *Stmt[T]) Exec(ctx context.Context, params any) (sql.Result, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -64,6 +64,6 @@ func (d *StmtT[T]) Exec(ctx context.Context, params any) (sql.Result, error) {
 	return d.stmt.ExecContext(ctx, args...)
 }
 
-func (d *StmtT[T]) buildArgs(params any) ([]any, error) {
+func (d *Stmt[T]) buildArgs(params any) ([]any, error) {
 	return d.queryHandler.ParseArgs(d.args, params)
 }
