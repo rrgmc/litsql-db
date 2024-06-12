@@ -7,17 +7,17 @@ import (
 	"github.com/rrgmc/litsql"
 )
 
-type QuerierT[ST SQLQuerierStmt] interface {
+type QuerierT[T SQLQuerier] interface {
 	Query(ctx context.Context, query litsql.Query, params any) (*sql.Rows, error)
 	QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error)
 	Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error)
-	Prepare(ctx context.Context, query litsql.Query) (*StmtT[ST], error)
-	Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST] // allows matching both DB and Tx
+	Prepare(ctx context.Context, query litsql.Query) (*StmtT[*sql.Stmt], error)
+	Stmt(ctx context.Context, stmt *StmtT[*sql.Stmt]) *StmtT[*sql.Stmt] // allows matching both DB and Tx
 }
 
-type QuerierDBT[ST SQLQuerierStmt, TT SQLQuerierTx] interface {
-	QuerierT[ST]
-	BeginTx(ctx context.Context, opts *sql.TxOptions) (*TxT[TT], error)
+type QuerierDBT[T SQLQuerier] interface {
+	QuerierT[T]
+	BeginTx(ctx context.Context, opts *sql.TxOptions) (*TxT[*sql.Tx], error)
 }
 
 type QuerierStmtT interface {
@@ -26,9 +26,8 @@ type QuerierStmtT interface {
 	Exec(ctx context.Context, params any) (sql.Result, error)
 }
 
-type QuerierTxT[ST SQLQuerierStmt] interface {
+type QuerierTxT[ST SQLQuerier] interface {
 	QuerierT[ST]
 	Commit() error
 	Rollback() error
-	Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST]
 }

@@ -1,10 +1,11 @@
-package lsql
+package lsql_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/rrgmc/litsql-db/lsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -24,7 +25,7 @@ func TestNewDB(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db)
+	ddb := lsql.NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -62,7 +63,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db, WithQueryHandler(sq.NewHandler(
+	ddb := lsql.NewDB(db, lsql.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

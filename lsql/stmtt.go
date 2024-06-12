@@ -13,6 +13,7 @@ type StmtT[T SQLQuerierStmt] struct {
 	queryHandler sq.Handler
 }
 
+// NewStmtT wraps any implementation of [SQLQuerierStmt].
 func NewStmtT[T SQLQuerierStmt](querier T, args []any, options ...Option) *StmtT[T] {
 	var optns dbOptions
 	for _, opt := range options {
@@ -30,7 +31,7 @@ func NewStmtT[T SQLQuerierStmt](querier T, args []any, options ...Option) *StmtT
 	}
 }
 
-func (d *StmtT[T]) Handler() SQLQuerierStmt {
+func (d *StmtT[T]) Handler() T {
 	return d.stmt
 }
 

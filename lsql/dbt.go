@@ -5,28 +5,29 @@ import (
 	"database/sql"
 )
 
-type DBT[ST SQLQuerierStmt, T SQLQuerierDB] struct {
-	*BaseQuerier[T]
+type DBT[T SQLQuerierDB] struct {
+	*baseQuerier[T]
 }
 
-func NewDBT[ST SQLQuerierStmt, T SQLQuerierDB](querier T, options ...Option) *DBT[ST, T] {
-	return &DBT[ST, T]{
-		BaseQuerier: NewBaseQuerier[T](querier, options...),
+// NewDBT wraps any implementation of [SQLQuerierDB].
+func NewDBT[T SQLQuerierDB](querier T, options ...Option) *DBT[T] {
+	return &DBT[T]{
+		baseQuerier: newBaseQuerier[T](querier, options...),
 	}
 }
 
-func (d *DBT[ST, T]) Stmt(ctx context.Context, stmt *StmtT[ST]) *StmtT[ST] {
+func (d *DBT[T]) Stmt(_ context.Context, stmt *StmtT[*sql.Stmt]) *StmtT[*sql.Stmt] {
 	// return the same instance, as we are not a transaction.
 	return stmt
 }
 
-func (d *DBT[ST, T]) BeginTx(ctx context.Context, opts *sql.TxOptions) (*TxT[*sql.Tx], error) {
-	tx, err := d.BaseQuerier.querier.BeginTx(ctx, opts)
+func (d *DBT[T]) BeginTx(ctx context.Context, opts *sql.TxOptions) (*TxT[*sql.Tx], error) {
+	tx, err := d.baseQuerier.querier.BeginTx(ctx, opts)
 	if err != nil {
 		return nil, err
 	}
 	return &TxT[*sql.Tx]{
-		BaseQuerier: &BaseQuerier[*sql.Tx]{
+		baseQuerier: &baseQuerier[*sql.Tx]{
 			queryHandler: d.queryHandler,
 			querier:      tx,
 		},

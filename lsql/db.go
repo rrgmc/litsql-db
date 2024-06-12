@@ -2,10 +2,11 @@ package lsql
 
 import "database/sql"
 
-type DB = DBT[*sql.Stmt, *sql.DB]
+type DB = DBT[*sql.DB]
 
 var _ QuerierDB = (*DB)(nil)
 
+// NewDB wraps an [sql.DB].
 func NewDB(db *sql.DB, options ...Option) *DB {
-	return NewDBT[*sql.Stmt](db, options...)
+	return NewDBT(db, options...)
 }

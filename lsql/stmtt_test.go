@@ -1,10 +1,11 @@
-package lsql
+package lsql_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/rrgmc/litsql-db/lsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -25,7 +26,7 @@ func TestNewStmt(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := NewDB(db)
+	ddb := lsql.NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -71,7 +72,7 @@ func TestNewStmtTx(t *testing.T) {
 			AddRow(1, "Test Film", 90))
 	dbMock.ExpectCommit()
 
-	ddb := NewDB(db)
+	ddb := lsql.NewDB(db)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
