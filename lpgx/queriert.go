@@ -24,10 +24,15 @@ type QuerierPoolT[T PGXQuerier] interface {
 	BeginTx(ctx context.Context, opts pgx.TxOptions) (*TxT[pgx.Tx], error)
 }
 
-type QuerierConnT[T PGXQuerier] interface {
-	QuerierWithPrepareT[T]
+type QuerierPoolConnT[T PGXQuerier] interface {
+	QuerierT[T]
 	QuerierPoolT[T]
 	BeginTx(ctx context.Context, opts pgx.TxOptions) (*TxT[pgx.Tx], error)
+}
+
+type QuerierConnT[T PGXQuerier] interface {
+	QuerierWithPrepareT[T]
+	QuerierPoolConnT[T]
 }
 
 type QuerierStmtT interface {
