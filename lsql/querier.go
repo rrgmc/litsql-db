@@ -1,9 +1,13 @@
 package lsql
 
-import "database/sql"
+import (
+	"database/sql"
 
-type QuerierDB = QuerierDBT[*sql.DB]
+	"github.com/rrgmc/litsql-db/lsql/lsqlt"
+)
 
-type QuerierStmt = QuerierStmtT
+type QuerierDB = lsqlt.QuerierDBT[*sql.DB]
 
-type QuerierTx = QuerierTxT[*sql.Tx]
+type QuerierStmt = lsqlt.QuerierStmtT
+
+type QuerierTx = lsqlt.QuerierTxT[*sql.Tx]
