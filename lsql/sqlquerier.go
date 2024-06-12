@@ -13,17 +13,20 @@ type SQLQuerier interface {
 	PrepareContext(ctx context.Context, query string) (*sql.Stmt, error)
 }
 
+// SQLQuerierDB is implemented by [sql.DB] and [sql.Conn].
 type SQLQuerierDB interface {
 	SQLQuerier
 	BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
 }
 
+// SQLQuerierStmt is implemented by [sql.Stmt].
 type SQLQuerierStmt interface {
 	QueryContext(ctx context.Context, args ...any) (*sql.Rows, error)
 	QueryRowContext(ctx context.Context, args ...any) *sql.Row
 	ExecContext(ctx context.Context, args ...any) (sql.Result, error)
 }
 
+// SQLQuerierTx is implemented by [sql.Tx].
 type SQLQuerierTx interface {
 	SQLQuerier
 	Commit() error
