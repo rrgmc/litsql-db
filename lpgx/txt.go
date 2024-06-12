@@ -8,13 +8,13 @@ import (
 
 // TxT wraps any implementation of [PGXQuerierTx].
 type TxT[T PGXQuerierTx] struct {
-	*baseQuerier[T]
+	*baseQuerierWithPrepare[T]
 }
 
 // NewTxT wraps any implementation of [PGXQuerierTx].
 func NewTxT[T PGXQuerierTx](querier T, options ...Option) *TxT[T] {
 	return &TxT[T]{
-		baseQuerier: newBaseQuerier[T](querier, options...),
+		baseQuerierWithPrepare: newBaseQuerierWithPrepare[T](querier, options...),
 	}
 }
 
@@ -24,9 +24,11 @@ func (d *TxT[T]) Begin(ctx context.Context) (*TxT[pgx.Tx], error) {
 		return nil, err
 	}
 	return &TxT[pgx.Tx]{
-		baseQuerier: &baseQuerier[pgx.Tx]{
-			queryHandler: d.queryHandler,
-			querier:      tx,
+		baseQuerierWithPrepare: &baseQuerierWithPrepare[pgx.Tx]{
+			baseQuerier: &baseQuerier[pgx.Tx]{
+				queryHandler: d.queryHandler,
+				querier:      tx,
+			},
 		},
 	}, nil
 }

@@ -58,7 +58,25 @@ func (d *baseQuerier[T]) Exec(ctx context.Context, query litsql.Query, params an
 	return d.querier.Exec(ctx, qstr, args...)
 }
 
-func (d *baseQuerier[T]) Prepare(ctx context.Context, name string, query litsql.Query) (*Stmt[T], error) {
+func (d *baseQuerier[T]) buildQuery(query litsql.Query, params any) (string, []any, error) {
+	return d.queryHandler.Build(query,
+		sq.WithParseArgs(params),
+	)
+}
+
+// with prepare
+
+type baseQuerierWithPrepare[T PGXQuerierWithPrepare] struct {
+	*baseQuerier[T]
+}
+
+func newBaseQuerierWithPrepare[T PGXQuerierWithPrepare](querier T, options ...Option) *baseQuerierWithPrepare[T] {
+	return &baseQuerierWithPrepare[T]{
+		baseQuerier: newBaseQuerier[T](querier, options...),
+	}
+}
+
+func (d *baseQuerierWithPrepare[T]) Prepare(ctx context.Context, name string, query litsql.Query) (*Stmt[T], error) {
 	qstr, args, err := d.queryHandler.Build(query)
 	if err != nil {
 		return nil, err
@@ -73,10 +91,4 @@ func (d *baseQuerier[T]) Prepare(ctx context.Context, name string, query litsql.
 		args:         args,
 		queryHandler: d.queryHandler,
 	}, nil
-}
-
-func (d *baseQuerier[T]) buildQuery(query litsql.Query, params any) (string, []any, error) {
-	return d.queryHandler.Build(query,
-		sq.WithParseArgs(params),
-	)
 }

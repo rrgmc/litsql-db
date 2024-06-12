@@ -27,7 +27,7 @@ func TestNewDB(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := lpgx.NewDBT(dbMock)
+	ddb := lpgx.NewConnT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -67,7 +67,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	ddb := lpgx.NewDBT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	ddb := lpgx.NewConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

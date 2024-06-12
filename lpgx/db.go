@@ -4,12 +4,12 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// DB wraps a [pgx.Conn].
-type DB = DBT[*pgx.Conn]
+// Conn wraps a [pgx.Conn].
+type Conn = ConnT[*pgx.Conn]
 
-var _ QuerierDB = (*DB)(nil)
+var _ QuerierConn = (*Conn)(nil)
 
-// NewDB wraps a [pgx.Conn].
-func NewDB(db *pgx.Conn, options ...Option) *DB {
-	return NewDBT(db, options...)
+// NewConn wraps a [pgx.Conn].
+func NewConn(db *pgx.Conn, options ...Option) *Conn {
+	return NewConnT(db, options...)
 }

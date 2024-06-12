@@ -19,7 +19,7 @@ func ExampleStmt() {
 	}
 
 	// wrap *pgx.Conn instance
-	ddb := lpgx.NewDB(conn)
+	ddb := lpgx.NewConn(conn)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
