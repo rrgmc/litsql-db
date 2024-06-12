@@ -6,6 +6,7 @@ import (
 
 	"github.com/pashagolub/pgxmock/v4"
 	"github.com/rrgmc/litsql-db/lpgx"
+	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -27,7 +28,7 @@ func TestNewConn(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgx.NewConnT(dbMock)
+	dconn := lpgxt.NewConnT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -67,7 +68,7 @@ func TestNewConnQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgx.NewConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dconn := lpgxt.NewConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),
@@ -111,7 +112,7 @@ func TestNewPoolConn(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgx.NewPoolConnT(dbMock)
+	dconn := lpgxt.NewPoolConnT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -151,7 +152,7 @@ func TestNewPoolConnQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dconn := lpgx.NewPoolConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dconn := lpgxt.NewPoolConnT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

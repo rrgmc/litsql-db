@@ -1,15 +1,12 @@
 package lpgx
 
-import "github.com/rrgmc/litsql/sq"
+import (
+	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
+	"github.com/rrgmc/litsql/sq"
+)
 
-type Option func(options *dbOptions)
-
-type dbOptions struct {
-	queryHandler sq.Handler
-}
+type Option = lpgxt.Option
 
 func WithQueryHandler(queryHandler sq.Handler) Option {
-	return func(options *dbOptions) {
-		options.queryHandler = queryHandler
-	}
+	return lpgxt.WithQueryHandler(queryHandler)
 }

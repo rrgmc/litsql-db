@@ -1,4 +1,4 @@
-package lpgx
+package lpgxt
 
 import (
 	"context"

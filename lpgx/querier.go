@@ -3,16 +3,17 @@ package lpgx
 import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 )
 
-type QuerierConn = QuerierConnT[*pgx.Conn]
+type QuerierConn = lpgxt.QuerierConnT[*pgx.Conn]
 
-type QuerierPoolConn = QuerierPoolConnT[*pgxpool.Conn]
+type QuerierPoolConn = lpgxt.QuerierPoolConnT[*pgxpool.Conn]
 
-type QuerierPool = QuerierPoolT[*pgxpool.Pool]
+type QuerierPool = lpgxt.QuerierPoolT[*pgxpool.Pool]
 
-type QuerierStmt = QuerierStmtT
+type QuerierStmt = lpgxt.QuerierStmtT
 
-type QuerierTx = QuerierTxT[pgx.Tx]
+type QuerierTx = lpgxt.QuerierTxT[pgx.Tx]
 
-type QuerierPoolTx = QuerierTxT[*pgxpool.Tx]
+type QuerierPoolTx = lpgxt.QuerierTxT[*pgxpool.Tx]

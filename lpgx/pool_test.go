@@ -6,6 +6,7 @@ import (
 
 	"github.com/pashagolub/pgxmock/v4"
 	"github.com/rrgmc/litsql-db/lpgx"
+	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
 	"github.com/rrgmc/litsql/sq"
@@ -27,7 +28,7 @@ func TestNewPool(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dpool := lpgx.NewPoolT(dbMock)
+	dpool := lpgxt.NewPoolT(dbMock)
 
 	query := psql.Select(
 		sm.Columns("film_id", "title", "length"),
@@ -67,7 +68,7 @@ func TestNewPoolQueryHandler(t *testing.T) {
 			NewRows([]string{"film_id", "title", "length"}).
 			AddRow(1, "Test Film", 90))
 
-	dpool := lpgx.NewPoolT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
+	dpool := lpgxt.NewPoolT(dbMock, lpgx.WithQueryHandler(sq.NewHandler(
 		sq.WithDefaultBuildOptions(
 			sq.WithWriterOptions(sq.WithUseNewLine(false)),
 		),

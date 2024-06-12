@@ -3,13 +3,14 @@ package lpgx
 import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 )
 
 // Conn wraps a [pgx.Conn].
-type Conn = ConnT[*pgx.Conn]
+type Conn = lpgxt.ConnT[*pgx.Conn]
 
 // PoolConn wraps a [pgxpool.Conn].
-type PoolConn = PoolConnT[*pgxpool.Conn]
+type PoolConn = lpgxt.PoolConnT[*pgxpool.Conn]
 
 var (
 	_ QuerierConn     = (*Conn)(nil)
@@ -18,10 +19,10 @@ var (
 
 // NewConn wraps a [pgx.Conn].
 func NewConn(conn *pgx.Conn, options ...Option) *Conn {
-	return NewConnT(conn, options...)
+	return lpgxt.NewConnT(conn, options...)
 }
 
 // NewPoolConn wraps a [pgxpool.Conn].
 func NewPoolConn(conn *pgxpool.Conn, options ...Option) *PoolConn {
-	return NewPoolConnT(conn, options...)
+	return lpgxt.NewPoolConnT(conn, options...)
 }
