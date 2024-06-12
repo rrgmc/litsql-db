@@ -3,7 +3,7 @@ github.com/DATA-DOG/go-sqlmock v1.5.2/go.mod h1:88MAG/4G7SMwSE3CeA0ZKzrT5CiOU3OJ
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/kisielk/sqlstruct v0.0.0-20201105191214-5f3e10d3ab46/go.mod h1:yyMNCyc/Ib3bDTKd379tNMpB/7/H5TjM2Y9QJ5THLbE=
-github.com/rrgmc/litsql v0.11.1 h1:lBE8ssZE71o8FQa7Nbhwg6Usaq+OFEPGQ35Fa6oIWpY=
-github.com/rrgmc/litsql v0.11.1/go.mod h1:G6iJMEDPifthsy4C+kwMhlUCRaj8JMzaA0F1avGhH5c=
+github.com/rrgmc/litsql v0.11.4 h1:lYuEBr9aLJRQw6L9smcuUfXGjwewbBH32Bs93V6dUho=
+github.com/rrgmc/litsql v0.11.4/go.mod h1:G6iJMEDPifthsy4C+kwMhlUCRaj8JMzaA0F1avGhH5c=
 gotest.tools/v3 v3.5.1 h1:EENdUnS3pdur5nybKYIh2Vfgc8IUNBjxDPSjtiJcOzU=
 gotest.tools/v3 v3.5.1/go.mod h1:isy3WKz7GK6uNw/sbHzfKBLvlvXwUyV06n6brMxxopU=
