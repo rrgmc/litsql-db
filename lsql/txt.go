@@ -5,6 +5,7 @@ import (
 	"database/sql"
 )
 
+// TxT wraps any implementation of [SQLQuerierTx].
 type TxT[T SQLQuerierTx] struct {
 	*baseQuerier[T]
 }

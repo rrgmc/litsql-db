@@ -4,6 +4,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// DB wraps a [pgx.Conn].
 type DB = DBT[*pgx.Conn]
 
 var _ QuerierDB = (*DB)(nil)

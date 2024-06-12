@@ -5,6 +5,7 @@ import (
 	"database/sql"
 )
 
+// DBT wraps any implementation of [SQLQuerierDB].
 type DBT[T SQLQuerierDB] struct {
 	*baseQuerier[T]
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
+// StmtT wraps any implementation of [SQLQuerierStmt].
 type StmtT[T SQLQuerierStmt] struct {
 	stmt         T
 	args         []any

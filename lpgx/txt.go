@@ -6,6 +6,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// TxT wraps any implementation of [PGXQuerierTx].
 type TxT[T PGXQuerierTx] struct {
 	*baseQuerier[T]
 }

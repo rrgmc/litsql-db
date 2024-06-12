@@ -5,8 +5,6 @@ import (
 	"database/sql"
 )
 
-// SQLQuerier is something that lsql can query and get the *sql.Rows from.
-// For example, it can be: *sql.DB, *sql.Conn or *sql.Tx.
 type SQLQuerier interface {
 	QueryContext(ctx context.Context, query string, args ...any) (*sql.Rows, error)
 	QueryRowContext(ctx context.Context, query string, args ...any) *sql.Row

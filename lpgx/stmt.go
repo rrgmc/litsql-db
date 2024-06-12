@@ -8,6 +8,7 @@ import (
 	"github.com/rrgmc/litsql/sq"
 )
 
+// Stmt wraps a PGXQuerier with a statement description from a Prepare call.
 type Stmt[T PGXQuerier] struct {
 	stmt         T
 	desc         *pgconn.StatementDescription

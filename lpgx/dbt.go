@@ -6,6 +6,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// DBT wraps any implementation of [PGXQuerierDB].
 type DBT[T PGXQuerierDB] struct {
 	*baseQuerier[T]
 }
