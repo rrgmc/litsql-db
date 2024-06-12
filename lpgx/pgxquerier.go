@@ -5,6 +5,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type PGXQuerier interface {
@@ -23,10 +24,15 @@ type PGXQuerierPool interface {
 	BeginTx(ctx context.Context, txOptions pgx.TxOptions) (pgx.Tx, error)
 }
 
-type PGXQuerierConn interface {
-	PGXQuerierWithPrepare
+type PGXQuerierPoolConn interface {
+	PGXQuerier
 	PGXQuerierPool
 	BeginTx(ctx context.Context, txOptions pgx.TxOptions) (pgx.Tx, error)
+}
+
+type PGXQuerierConn interface {
+	PGXQuerierWithPrepare
+	PGXQuerierPoolConn
 }
 
 type PGXQuerierTx interface {
@@ -35,3 +41,23 @@ type PGXQuerierTx interface {
 	Commit(ctx context.Context) error
 	Rollback(ctx context.Context) error
 }
+
+var (
+	_ PGXQuerier = (*pgx.Conn)(nil)
+	_ PGXQuerier = (pgx.Tx)(nil)
+	_ PGXQuerier = (*pgxpool.Pool)(nil)
+	_ PGXQuerier = (*pgxpool.Conn)(nil)
+	_ PGXQuerier = (*pgxpool.Tx)(nil)
+
+	_ PGXQuerierWithPrepare = (*pgx.Conn)(nil)
+	_ PGXQuerierWithPrepare = (pgx.Tx)(nil)
+	_ PGXQuerierWithPrepare = (*pgxpool.Tx)(nil)
+
+	_ PGXQuerierPool = (*pgxpool.Pool)(nil)
+
+	_ PGXQuerierConn     = (*pgx.Conn)(nil)
+	_ PGXQuerierPoolConn = (*pgxpool.Conn)(nil)
+
+	_ PGXQuerierTx = (pgx.Tx)(nil)
+	_ PGXQuerierTx = (*pgxpool.Tx)(nil)
+)

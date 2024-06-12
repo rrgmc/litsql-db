@@ -5,6 +5,7 @@ import (
 	"database/sql"
 )
 
+// SQLQuerier is implemented by [sql.DB], [sql.Tx] and [sql.Conn].
 type SQLQuerier interface {
 	QueryContext(ctx context.Context, query string, args ...any) (*sql.Rows, error)
 	QueryRowContext(ctx context.Context, query string, args ...any) *sql.Row
@@ -29,3 +30,16 @@ type SQLQuerierTx interface {
 	Rollback() error
 	StmtContext(ctx context.Context, stmt *sql.Stmt) *sql.Stmt
 }
+
+var (
+	_ SQLQuerier = (*sql.DB)(nil)
+	_ SQLQuerier = (*sql.Tx)(nil)
+	_ SQLQuerier = (*sql.Conn)(nil)
+
+	_ SQLQuerierDB = (*sql.DB)(nil)
+	_ SQLQuerierDB = (*sql.Conn)(nil)
+
+	_ SQLQuerierTx = (*sql.Tx)(nil)
+
+	_ SQLQuerierStmt = (*sql.Stmt)(nil)
+)
