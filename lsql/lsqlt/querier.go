@@ -8,9 +8,9 @@ import (
 )
 
 type Querier interface {
-	Query(ctx context.Context, query litsql.Query, params any) (*sql.Rows, error)
-	QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error)
-	Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error)
+	Query(ctx context.Context, query litsql.Query, params litsql.ArgValues) (*sql.Rows, error)
+	QueryRow(ctx context.Context, query litsql.Query, params litsql.ArgValues) (*sql.Row, error)
+	Exec(ctx context.Context, query litsql.Query, params litsql.ArgValues) (sql.Result, error)
 	Prepare(ctx context.Context, query litsql.Query) (*Stmt[*sql.Stmt], error)
 	Stmt(ctx context.Context, stmt *Stmt[*sql.Stmt]) *Stmt[*sql.Stmt] // allows matching both DB and Tx
 }
@@ -21,9 +21,9 @@ type QuerierDB interface {
 }
 
 type QuerierStmt interface {
-	Query(ctx context.Context, params any) (*sql.Rows, error)
-	QueryRow(ctx context.Context, params any) (*sql.Row, error)
-	Exec(ctx context.Context, params any) (sql.Result, error)
+	Query(ctx context.Context, params litsql.ArgValues) (*sql.Rows, error)
+	QueryRow(ctx context.Context, params litsql.ArgValues) (*sql.Row, error)
+	Exec(ctx context.Context, params litsql.ArgValues) (sql.Result, error)
 }
 
 type QuerierTx interface {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/pashagolub/pgxmock/v4"
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -42,7 +43,7 @@ func TestNewTx(t *testing.T) {
 	dtx, err := dconn.BeginTx(ctx, pgx.TxOptions{})
 	assert.NilError(t, err)
 
-	rows, err := dtx.Query(ctx, query, map[string]any{
+	rows, err := dtx.Query(ctx, query, litsql.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)

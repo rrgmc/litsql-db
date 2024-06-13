@@ -9,9 +9,9 @@ import (
 )
 
 type Querier interface {
-	Query(ctx context.Context, query litsql.Query, params any) (pgx.Rows, error)
-	QueryRow(ctx context.Context, query litsql.Query, params any) (pgx.Row, error)
-	Exec(ctx context.Context, query litsql.Query, params any) (pgconn.CommandTag, error)
+	Query(ctx context.Context, query litsql.Query, params litsql.ArgValues) (pgx.Rows, error)
+	QueryRow(ctx context.Context, query litsql.Query, params litsql.ArgValues) (pgx.Row, error)
+	Exec(ctx context.Context, query litsql.Query, params litsql.ArgValues) (pgconn.CommandTag, error)
 }
 
 type QuerierWithPrepare[T PGXQuerier] interface {
@@ -36,9 +36,9 @@ type QuerierConn[T PGXQuerier] interface {
 }
 
 type QuerierStmt interface {
-	Query(ctx context.Context, params any) (pgx.Rows, error)
-	QueryRow(ctx context.Context, params any) (pgx.Row, error)
-	Exec(ctx context.Context, params any) (pgconn.CommandTag, error)
+	Query(ctx context.Context, params litsql.ArgValues) (pgx.Rows, error)
+	QueryRow(ctx context.Context, params litsql.ArgValues) (pgx.Row, error)
+	Exec(ctx context.Context, params litsql.ArgValues) (pgconn.CommandTag, error)
 }
 
 type QuerierTx[T PGXQuerier] interface {

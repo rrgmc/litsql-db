@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -37,7 +38,7 @@ func ExampleStmt() {
 	}
 
 	// execute prepared query, replacing named parameters
-	rows, err := dstmt.Query(ctx, map[string]any{
+	rows, err := dstmt.Query(ctx, litsql.MapArgValues{
 		"length": 90,
 	})
 	if err != nil {

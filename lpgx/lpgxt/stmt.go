@@ -5,6 +5,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql/sq"
 )
 
@@ -39,7 +40,7 @@ func (d *Stmt[T]) Handler() T {
 	return d.stmt
 }
 
-func (d *Stmt[T]) Query(ctx context.Context, params any) (pgx.Rows, error) {
+func (d *Stmt[T]) Query(ctx context.Context, params litsql.ArgValues) (pgx.Rows, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -47,7 +48,7 @@ func (d *Stmt[T]) Query(ctx context.Context, params any) (pgx.Rows, error) {
 	return d.stmt.Query(ctx, d.desc.Name, args...)
 }
 
-func (d *Stmt[T]) QueryRow(ctx context.Context, params any) (pgx.Row, error) {
+func (d *Stmt[T]) QueryRow(ctx context.Context, params litsql.ArgValues) (pgx.Row, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -55,7 +56,7 @@ func (d *Stmt[T]) QueryRow(ctx context.Context, params any) (pgx.Row, error) {
 	return d.stmt.QueryRow(ctx, d.desc.Name, args...), nil
 }
 
-func (d *Stmt[T]) Exec(ctx context.Context, params any) (pgconn.CommandTag, error) {
+func (d *Stmt[T]) Exec(ctx context.Context, params litsql.ArgValues) (pgconn.CommandTag, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return pgconn.CommandTag{}, err
@@ -63,6 +64,6 @@ func (d *Stmt[T]) Exec(ctx context.Context, params any) (pgconn.CommandTag, erro
 	return d.stmt.Exec(ctx, d.desc.Name, args...)
 }
 
-func (d *Stmt[T]) buildArgs(params any) ([]any, error) {
+func (d *Stmt[T]) buildArgs(params litsql.ArgValues) ([]any, error) {
 	return d.queryHandler.ParseArgs(d.args, params)
 }

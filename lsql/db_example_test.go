@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -29,7 +30,7 @@ func ExampleDB() {
 	)
 
 	// generate SQL string from litsql and execute it, replacing named parameters.
-	rows, err := ddb.Query(ctx, query, map[string]any{
+	rows, err := ddb.Query(ctx, query, litsql.MapArgValues{
 		"length": 90,
 	})
 	if err != nil {

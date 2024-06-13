@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql/sq"
 )
 
@@ -36,7 +37,7 @@ func (d *Stmt[T]) Handler() T {
 	return d.stmt
 }
 
-func (d *Stmt[T]) Query(ctx context.Context, params any) (*sql.Rows, error) {
+func (d *Stmt[T]) Query(ctx context.Context, params litsql.ArgValues) (*sql.Rows, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -44,7 +45,7 @@ func (d *Stmt[T]) Query(ctx context.Context, params any) (*sql.Rows, error) {
 	return d.stmt.QueryContext(ctx, args...)
 }
 
-func (d *Stmt[T]) QueryRow(ctx context.Context, params any) (*sql.Row, error) {
+func (d *Stmt[T]) QueryRow(ctx context.Context, params litsql.ArgValues) (*sql.Row, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -56,7 +57,7 @@ func (d *Stmt[T]) QueryRow(ctx context.Context, params any) (*sql.Row, error) {
 	return row, nil
 }
 
-func (d *Stmt[T]) Exec(ctx context.Context, params any) (sql.Result, error) {
+func (d *Stmt[T]) Exec(ctx context.Context, params litsql.ArgValues) (sql.Result, error) {
 	args, err := d.buildArgs(params)
 	if err != nil {
 		return nil, err
@@ -64,6 +65,6 @@ func (d *Stmt[T]) Exec(ctx context.Context, params any) (sql.Result, error) {
 	return d.stmt.ExecContext(ctx, args...)
 }
 
-func (d *Stmt[T]) buildArgs(params any) ([]any, error) {
+func (d *Stmt[T]) buildArgs(params litsql.ArgValues) ([]any, error) {
 	return d.queryHandler.ParseArgs(d.args, params)
 }

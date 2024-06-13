@@ -33,7 +33,7 @@ func (d *baseQuerier[T]) Handler() T {
 	return d.querier
 }
 
-func (d *baseQuerier[T]) Query(ctx context.Context, query litsql.Query, params any) (*sql.Rows, error) {
+func (d *baseQuerier[T]) Query(ctx context.Context, query litsql.Query, params litsql.ArgValues) (*sql.Rows, error) {
 	qstr, args, err := d.buildQuery(query, params)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func (d *baseQuerier[T]) Query(ctx context.Context, query litsql.Query, params a
 	return d.querier.QueryContext(ctx, qstr, args...)
 }
 
-func (d *baseQuerier[T]) QueryRow(ctx context.Context, query litsql.Query, params any) (*sql.Row, error) {
+func (d *baseQuerier[T]) QueryRow(ctx context.Context, query litsql.Query, params litsql.ArgValues) (*sql.Row, error) {
 	qstr, args, err := d.buildQuery(query, params)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (d *baseQuerier[T]) QueryRow(ctx context.Context, query litsql.Query, param
 	return row, nil
 }
 
-func (d *baseQuerier[T]) Exec(ctx context.Context, query litsql.Query, params any) (sql.Result, error) {
+func (d *baseQuerier[T]) Exec(ctx context.Context, query litsql.Query, params litsql.ArgValues) (sql.Result, error) {
 	qstr, args, err := d.buildQuery(query, params)
 	if err != nil {
 		return nil, err
@@ -77,7 +77,7 @@ func (d *baseQuerier[T]) Prepare(ctx context.Context, query litsql.Query) (*Stmt
 	}, nil
 }
 
-func (d *baseQuerier[T]) buildQuery(query litsql.Query, params any) (string, []any, error) {
+func (d *baseQuerier[T]) buildQuery(query litsql.Query, params litsql.ArgValues) (string, []any, error) {
 	return d.queryHandler.Build(query,
 		sq.WithParseArgs(params),
 	)
