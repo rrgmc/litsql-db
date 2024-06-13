@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/pashagolub/pgxmock/v4"
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql-db/lpgx/lpgxt"
 	"github.com/rrgmc/litsql/dialect/psql"
@@ -38,7 +37,7 @@ func TestNewPool(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	rows, err := dpool.Query(ctx, query, litsql.MapArgValues{
+	rows, err := dpool.Query(ctx, query, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)
@@ -82,7 +81,7 @@ func TestNewPoolQueryHandler(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	rows, err := dpool.Query(ctx, query, litsql.MapArgValues{
+	rows, err := dpool.Query(ctx, query, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)

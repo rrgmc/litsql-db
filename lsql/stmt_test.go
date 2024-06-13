@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -39,7 +38,7 @@ func TestNewStmt(t *testing.T) {
 	dstmt, err := ddb.Prepare(ctx, query)
 	assert.NilError(t, err)
 
-	rows, err := dstmt.Query(ctx, litsql.MapArgValues{
+	rows, err := dstmt.Query(ctx, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)
@@ -88,7 +87,7 @@ func TestNewStmtTx(t *testing.T) {
 	dtx, err := ddb.BeginTx(ctx, nil)
 	assert.NilError(t, err)
 
-	rows, err := dtx.Stmt(ctx, dstmt).Query(ctx, litsql.MapArgValues{
+	rows, err := dtx.Stmt(ctx, dstmt).Query(ctx, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)

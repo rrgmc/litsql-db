@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lsql"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -35,7 +34,7 @@ func TestNewDB(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	rows, err := ddb.Query(ctx, query, litsql.MapArgValues{
+	rows, err := ddb.Query(ctx, query, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)
@@ -77,7 +76,7 @@ func TestNewDBQueryHandler(t *testing.T) {
 		sm.Limit(10),
 	)
 
-	rows, err := ddb.Query(ctx, query, litsql.MapArgValues{
+	rows, err := ddb.Query(ctx, query, sq.MapArgValues{
 		"length": 90,
 	})
 	assert.NilError(t, err)

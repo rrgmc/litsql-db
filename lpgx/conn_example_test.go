@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/rrgmc/litsql"
 	"github.com/rrgmc/litsql-db/lpgx"
 	"github.com/rrgmc/litsql/dialect/psql"
 	"github.com/rrgmc/litsql/dialect/psql/sm"
@@ -30,7 +29,7 @@ func ExampleConn() {
 	)
 
 	// generate SQL string from litsql and execute it, replacing named parameters.
-	rows, err := dconn.Query(ctx, query, litsql.MapArgValues{
+	rows, err := dconn.Query(ctx, query, sq.MapArgValues{
 		"length": 90,
 	})
 	if err != nil {
