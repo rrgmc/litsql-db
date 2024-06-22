@@ -29,7 +29,7 @@ func ExampleDB() {
     )
 
     // generate SQL string from litsql and execute it, replacing named parameters.
-    rows, err := ddb.Query(ctx, query, map[string]any{
+    rows, err := ddb.Query(ctx, query, sq.MapArgValues{
         "length": 90,
     })
     if err != nil {
@@ -80,7 +80,7 @@ func ExampleStmt() {
     }
 
     // execute prepared query, replacing named parameters
-    rows, err := dstmt.Query(ctx, map[string]any{
+    rows, err := dstmt.Query(ctx, sq.MapArgValues{
         "length": 90,
     })
     if err != nil {
