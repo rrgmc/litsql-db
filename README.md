@@ -1,6 +1,6 @@
 # litsql-db
 
-DB wrappers for [litsql](https://github.com/rrgmc/litsql).
+Wrappers for running [litsql](https://github.com/rrgmc/litsql) SQL queries directly in databases.
 
  * [stdlib sql](https://pkg.go.dev/github.com/rrgmc/litsql-db/lsql)
  * [pgx](https://pkg.go.dev/github.com/rrgmc/litsql-db/lpgx)
